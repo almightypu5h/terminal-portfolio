@@ -86,7 +86,7 @@ const LinuxTerminalPortfolio = () => {
       cursorBlink: true,
       theme: terminalTheme,
       fontFamily: "'Fira Code', 'Cascadia Code', 'Source Code Pro', monospace",
-      fontSize: 15,
+      fontSize: getFontSizeBasedOnDevice(), // Dynamically set font size based on device
       lineHeight: 1.2,
       scrollback: 1000, // Reduce scrollback for better performance
       cursorStyle: "block",
@@ -104,8 +104,16 @@ const LinuxTerminalPortfolio = () => {
     // Handle window resize with debounce for performance
     const handleResize = debounce(() => {
       fitAddon.current.fit();
+      // Update font size when window is resized
+      if (terminal.current) {
+        terminal.current.options.fontSize = getFontSizeBasedOnDevice();
+        fitAddon.current.fit();
+      }
     }, 100);
     window.addEventListener("resize", handleResize);
+    
+    // Add touch interface support for mobile
+    addMobileTouchSupport();
 
     // Display welcome banner
     displayBanner();
@@ -118,28 +126,66 @@ const LinuxTerminalPortfolio = () => {
         terminal.current.dispose();
       }
       window.removeEventListener("resize", handleResize);
+      
+      // Remove touch event listeners
+      const container = terminalRef.current;
+      if (container) {
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchend', handleTouchEnd);
+      }
     };
   }, []);
+
+  /**
+   * Returns appropriate font size based on device screen width
+   */
+  const getFontSizeBasedOnDevice = () => {
+    // Get the current viewport width
+    const width = window.innerWidth;
+    
+    // Font size breakpoints
+    if (width < 480) {
+      return 12; // Mobile phones
+    } else if (width < 768) {
+      return 13; // Larger phones / small tablets
+    } else if (width < 1024) {
+      return 14; // Tablets
+    } else {
+      return 15; // Desktop and larger screens
+    }
+  };
 
   /**
    * Displays the welcome banner with ASCII art
    */
   const displayBanner = () => {
-    // Batch write operations for better performance
-    const bannerText = [
-      "\x1b[36m                 _     _         _                      _             _ ",
-      "  __ _  ___| |__ ( )___   | |_ ___ _ __ _ __ ___ (_)_ __   __ _| |",
-      " / _` |/ __| '_ \\|// __|  | __/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | |",
-      "| (_| |\\__ \\ | | | \\__ \\  | ||  __/ |  | | | | | | | | | | (_| | |",
-      " \\__,_||___/_| |_| |___/   \\__\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\x1b[0m",
-      "",
-      "\x1b[1;32mWelcome to Ash's Terminal!\x1b[0m",
-      "Type \x1b[1;34mhelp\x1b[0m to see available commands.",
-      "\x1b[1;31m⚠️  IMPORTANT:\x1b[0m \x1b[1mPlease use the commands responsibly.\x1b[0m",
-      "\x1b[1;33m📝 FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
-    ].join("\r\n");
+    // Check if mobile device for simplified banner
+    const isMobile = window.innerWidth < 480;
     
-    terminal.current.write(bannerText + "\r\n");
+    // Batch write operations for better performance
+    const bannerText = isMobile 
+      ? [
+          "\x1b[36mash's terminal\x1b[0m",
+          "",
+          "\x1b[1;32mWelcome to Ash's Terminal!\x1b[0m",
+          "Type \x1b[1;34mhelp\x1b[0m to see commands.",
+          "\x1b[1;31m⚠️ IMPORTANT:\x1b[0m Use responsibly.",
+          "\x1b[1;33m📝 FEEDBACK:\x1b[0m Contact \x1b[4ma83h@proton.me\x1b[0m"
+        ]
+      : [
+          "\x1b[36m                 _     _         _                      _             _ ",
+          "  __ _  ___| |__ ( )___   | |_ ___ _ __ _ __ ___ (_)_ __   __ _| |",
+          " / _` |/ __| '_ \\|// __|  | __/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | |",
+          "| (_| |\\__ \\ | | | \\__ \\  | ||  __/ |  | | | | | | | | | | (_| | |",
+          " \\__,_||___/_| |_| |___/   \\__\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\x1b[0m",
+          "",
+          "\x1b[1;32mWelcome to Ash's Terminal!\x1b[0m",
+          "Type \x1b[1;34mhelp\x1b[0m to see available commands.",
+          "\x1b[1;31m⚠️  IMPORTANT:\x1b[0m \x1b[1mPlease use the commands responsibly.\x1b[0m",
+          "\x1b[1;33m📝 FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
+        ];
+    
+    terminal.current.write(bannerText.join("\r\n") + "\r\n");
   };
 
   /**
@@ -521,6 +567,143 @@ const LinuxTerminalPortfolio = () => {
     }
   };
 
+  /**
+   * Add touch interface support for mobile devices
+   */
+  const addMobileTouchSupport = () => {
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile || !terminalRef.current) return;
+    
+    const container = terminalRef.current;
+    
+    // Create mobile keyboard input button
+    const mobileInputBtn = document.createElement('button');
+    mobileInputBtn.innerText = '📝 Tap to type';
+    mobileInputBtn.className = 'mobile-input-button';
+    mobileInputBtn.style.cssText = `
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: 1px solid #444;
+      border-radius: 5px;
+      padding: 8px 12px;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    `;
+    
+    // Show virtual keyboard when button is tapped
+    mobileInputBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Create a hidden input field to trigger virtual keyboard
+      const input = document.createElement('input');
+      input.setAttribute('type', 'text');
+      input.style.position = 'fixed';
+      input.style.opacity = '0';
+      input.style.height = '0';
+      input.style.fontSize = '16px'; // iOS won't zoom in if font size >= 16px
+      
+      // Handle input
+      input.addEventListener('input', (e) => {
+        const text = e.target.value;
+        if (text && text.length > 0) {
+          // Add each character to command buffer and terminal
+          for (let i = 0; i < text.length; i++) {
+            handleKeyInput(text.charAt(i));
+          }
+          e.target.value = '';
+        }
+      });
+      
+      // Handle form submission (Enter key press)
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleEnterKey();
+          input.value = '';
+        }
+      });
+      
+      document.body.appendChild(input);
+      input.focus();
+      
+      // Remove after blur
+      input.addEventListener('blur', () => {
+        document.body.removeChild(input);
+      });
+    });
+    
+    container.appendChild(mobileInputBtn);
+    
+    // Add touch event listeners for common actions
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchend', handleTouchEnd);
+  };
+  
+  // Track touch positions for swipe detection
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+  
+  /**
+   * Handle touch start events
+   */
+  const handleTouchStart = (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  };
+  
+  /**
+   * Handle touch end events
+   */
+  const handleTouchEnd = (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    
+    // Detect gesture
+    handleGesture();
+  };
+  
+  /**
+   * Process touch gestures
+   */
+  const handleGesture = () => {
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    
+    // Minimum swipe distance (in pixels)
+    const minSwipeDistance = 50;
+    
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+          // Right swipe - show previous command
+          if (historyIndex.current > 0) {
+            historyIndex.current--;
+            showHistoryCommand();
+          }
+        } else {
+          // Left swipe - show next command
+          if (historyIndex.current < history.current.length - 1) {
+            historyIndex.current++;
+            showHistoryCommand();
+          } else {
+            // At end of history, clear command line
+            clearCommandLine();
+          }
+        }
+      }
+    } else {
+      // Vertical swipe - could be used for scrolling
+      // Implemented by default in the terminal
+    }
+  };
+
   return (
     <div
       ref={terminalRef}
@@ -529,7 +712,7 @@ const LinuxTerminalPortfolio = () => {
         width: "100%",
         height: "100vh",
         backgroundColor: "#1E1E1E",
-        padding: "10px",
+        padding: window.innerWidth < 768 ? "5px" : "10px", // Smaller padding on mobile
         boxSizing: "border-box",
         overflow: "hidden",
         boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)"

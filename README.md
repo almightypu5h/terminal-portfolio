@@ -2,15 +2,19 @@
 
 A sleek, interactive terminal-based portfolio website built with React and xterm.js
 
+![Terminal Portfolio Screenshot](./src/assets/screenshot.png)
+
 ## ✨ Features
 
 - **Authentic Terminal Experience**: Simulates a Linux terminal with authentic styling and behavior
 - **Interactive Commands**: Navigate through portfolio content using familiar terminal commands
-- **Responsive Design**: Automatically resizes to fit any screen size
+- **Responsive Design**: Automatically adapts to mobile phones, tablets, and desktop screens
 - **Command History**: Navigate through previous commands using arrow keys
 - **Tab Completion**: Complete commands with tab key
 - **Custom ASCII Art**: Personalized welcome banner and neofetch display
 - **Highlighted Text**: Important information stands out with color coding and formatting
+- **Mobile-Friendly**: Optimized font sizes and interface elements for small screens
+- **Touch Compatible**: Works well on touchscreen devices with swipe gestures and virtual keyboard
 
 ## 🚀 Available Commands
 
@@ -42,6 +46,24 @@ A sleek, interactive terminal-based portfolio website built with React and xterm
 - JavaScript
 - CSS
 - Vite
+
+## 📱 Responsive Design
+
+The terminal portfolio is fully responsive across all devices:
+
+- **Mobile Phones**: Optimized font size (12px) and layout for small screens
+- **Tablets**: Adjusted font size (13-14px) for better readability on medium screens
+- **Desktop**: Full experience with optimal font size (15px)
+- **Touch Interface**:
+  - Virtual keyboard button for easy typing on mobile
+  - Swipe left/right to navigate command history
+  - Simplified banner on mobile devices
+  - Visual cues for touch interactions
+- **Special Considerations**:
+  - iOS Safari viewport height fixes
+  - Landscape mode optimizations
+  - Custom scrollbar styling for better touch interaction
+  - Reduced padding on smaller screens
 
 ## 🛠️ Installation
 

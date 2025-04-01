@@ -2,3 +2,109 @@
     margin: 0;
     padding: 0;
 }
+
+/* Terminal container responsive styles */
+.terminal-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Handle mobile orientation */
+@media screen and (max-width: 480px) {
+    .terminal-container .xterm {
+        font-size: 12px !important;
+    }
+    
+    /* Adjust height for mobile in landscape mode */
+    @media screen and (orientation: landscape) {
+        .terminal-container {
+            height: 100vh;
+            min-height: 300px;
+        }
+    }
+    
+    /* Mobile input button styles */
+    .mobile-input-button {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            opacity: 0.7;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.7;
+        }
+    }
+    
+    /* Help text for mobile users */
+    .terminal-container::before {
+        content: "← Swipe to navigate history →";
+        position: fixed;
+        bottom: 50px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 12px;
+        z-index: 1000;
+        pointer-events: none;
+        animation: fadeOut 5s forwards;
+    }
+    
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        70% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+}
+
+/* Tablet styles */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .terminal-container .xterm {
+        font-size: 13px !important;
+    }
+    
+    /* Slightly larger mobile input button */
+    .mobile-input-button {
+        padding: 10px 15px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* Ensure terminal is visible on iOS safari */
+@supports (-webkit-touch-callout: none) {
+    .terminal-container {
+        height: -webkit-fill-available;
+    }
+}
+
+/* Improve terminal readability */
+.terminal-container .xterm-viewport {
+    scrollbar-width: thin;
+}
+
+/* Custom scrollbar for webkit browsers */
+.terminal-container .xterm-viewport::-webkit-scrollbar {
+    width: 5px;
+}
+
+.terminal-container .xterm-viewport::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.terminal-container .xterm-viewport::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+/* Mobile input button hover/active states */
+.mobile-input-button:hover, .mobile-input-button:active {
+    opacity: 1 !important;
+    background: rgba(30, 30, 30, 0.9) !important;
+}
