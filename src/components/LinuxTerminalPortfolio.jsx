@@ -159,18 +159,22 @@ const LinuxTerminalPortfolio = () => {
    * Displays the welcome banner with ASCII art
    */
   const displayBanner = () => {
-    // Check if mobile device for simplified banner
+    // Check if mobile device for smaller banner
     const isMobile = window.innerWidth < 480;
     
     // Batch write operations for better performance
     const bannerText = isMobile 
       ? [
-          "\x1b[36mash's terminal\x1b[0m",
-          "",
+          "\x1b[36m     _         _       ",
+          "    / \\   ___| |__    ", 
+          "   / _ \\ / __| '_ \\   ",
+          "  / ___ \\\\__ \\ | | |  ",
+          " /_/   \\_\\___/_| |_|  \x1b[0m",
           "\x1b[1;32mWelcome to Ash's Terminal!\x1b[0m",
-          "Type \x1b[1;34mhelp\x1b[0m to see commands.",
-          "\x1b[1;31m⚠️ IMPORTANT:\x1b[0m Use responsibly.",
-          "\x1b[1;33m📝 FEEDBACK:\x1b[0m Contact \x1b[4ma83h@proton.me\x1b[0m"
+          "Type \x1b[1;34mhelp\x1b[0m for commands.",
+          "\x1b[1;31m⚠️\x1b[0m \x1b[1mUse responsibly\x1b[0m",
+          "\x1b[1;33m📝 FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
+
         ]
       : [
           "\x1b[36m                 _     _         _                      _             _ ",
@@ -453,24 +457,42 @@ const LinuxTerminalPortfolio = () => {
         User: user,
       };
 
+      // Check if mobile device for smaller ASCII art
+      const isMobile = window.innerWidth < 480;
+
       // Pre-compose output for better performance
-      const asciiArt = [
-        "\x1b[36m       _       _        ", 
-        "      / \\   ___| |__   ",
-        "     / _ \\ / __| '_ \\  ",
-        "    / ___ \\\\__ \\ | | | ",
-        "   /_/   \\_\\___/_| |_| \x1b[0m"
-      ].join("\r\n");
+      const asciiArt = isMobile
+        ? [
+            "\x1b[36m     _         _       ",
+          "    / \\   ___| |__    ", 
+          "   / _ \\ / __| '_ \\   ",
+          "  / ___ \\\\__ \\ | | |  ",
+          " /_/   \\_\\___/_| |_|  \x1b[0m",
+          ].join("\r\n")
+        : [
+            "\x1b[36m       _       _        ", 
+            "      / \\   ___| |__   ",
+            "     / _ \\ / __| '_ \\  ",
+            "    / ___ \\\\__ \\ | | | ",
+            "   /_/   \\_\\___/_| |_| \x1b[0m"
+          ].join("\r\n");
       
-      const colorBlocks = [
-        "\x1b[30m███\x1b[31m███\x1b[32m███\x1b[33m███\x1b[34m███\x1b[35m███\x1b[36m███\x1b[37m███\x1b[0m",
-        "\x1b[1;30m███\x1b[1;31m███\x1b[1;32m███\x1b[1;33m███\x1b[1;34m███\x1b[1;35m███\x1b[1;36m███\x1b[1;37m███\x1b[0m"
-      ].join("\r\n");
+      const colorBlocks = isMobile
+        ? "\x1b[30m■\x1b[31m■\x1b[32m■\x1b[33m■\x1b[34m■\x1b[35m■\x1b[36m■\x1b[37m■\x1b[0m\r\n\x1b[1;30m■\x1b[1;31m■\x1b[1;32m■\x1b[1;33m■\x1b[1;34m■\x1b[1;35m■\x1b[1;36m■\x1b[1;37m■\x1b[0m"
+        : [
+            "\x1b[30m███\x1b[31m███\x1b[32m███\x1b[33m███\x1b[34m███\x1b[35m███\x1b[36m███\x1b[37m███\x1b[0m",
+            "\x1b[1;30m███\x1b[1;31m███\x1b[1;32m███\x1b[1;33m███\x1b[1;34m███\x1b[1;35m███\x1b[1;36m███\x1b[1;37m███\x1b[0m"
+          ].join("\r\n");
       
-      // Build system info in one go
+      // Build system info based on screen size
       let systemInfo = `\x1b[1;36m${user}@portfolio\x1b[0m\r\n\x1b[1;36m---------------\x1b[0m\r\n`;
+      
+      // On mobile, show fewer system details
+      const mobileEntries = ['OS', 'User', 'Shell', 'Uptime'];
       Object.entries(osInfo).forEach(([key, value]) => {
-        systemInfo += `\x1b[1;33m${key}:\x1b[0m ${value}\r\n`;
+        if (!isMobile || mobileEntries.includes(key)) {
+          systemInfo += `\x1b[1;33m${key}:\x1b[0m ${value}\r\n`;
+        }
       });
 
       // Write with fewer operations
@@ -568,6 +590,18 @@ const LinuxTerminalPortfolio = () => {
   };
 
   /**
+   * Handle key input from the on-screen keyboard
+   * @param {string} character - The character to process
+   */
+  const handleKeyInput = (character) => {
+    // Add character to command buffer
+    commandBuffer.current += character;
+    
+    // Write the character to the terminal
+    terminal.current.write(character);
+  };
+
+  /**
    * Add touch interface support for mobile devices
    */
   const addMobileTouchSupport = () => {
@@ -598,12 +632,14 @@ const LinuxTerminalPortfolio = () => {
     // Show virtual keyboard when button is tapped
     mobileInputBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      
       // Create a hidden input field to trigger virtual keyboard
       const input = document.createElement('input');
       input.setAttribute('type', 'text');
       input.style.position = 'fixed';
       input.style.opacity = '0';
       input.style.height = '0';
+      input.style.width = '0';
       input.style.fontSize = '16px'; // iOS won't zoom in if font size >= 16px
       
       // Handle input
@@ -624,19 +660,62 @@ const LinuxTerminalPortfolio = () => {
           e.preventDefault();
           handleEnterKey();
           input.value = '';
+        } else if (e.key === 'Backspace') {
+          // Handle backspace key
+          if (commandBuffer.current.length > 0) {
+            commandBuffer.current = commandBuffer.current.slice(0, -1);
+            terminal.current.write("\b \b");
+          }
+          e.preventDefault();
         }
       });
       
+      // Append to body and focus
       document.body.appendChild(input);
-      input.focus();
+      
+      // Use setTimeout to ensure the focus works on iOS
+      setTimeout(() => {
+        input.focus();
+      }, 100);
       
       // Remove after blur
       input.addEventListener('blur', () => {
-        document.body.removeChild(input);
+        setTimeout(() => {
+          if (document.body.contains(input)) {
+            document.body.removeChild(input);
+          }
+        }, 300);
       });
     });
     
+    // Add a full-width touch keyboard button at the bottom for easier access
+    const fullWidthKeyboardBtn = document.createElement('button');
+    fullWidthKeyboardBtn.innerText = '⌨️ Tap here to type a command';
+    fullWidthKeyboardBtn.className = 'mobile-input-button full-width';
+    fullWidthKeyboardBtn.style.cssText = `
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-top: 1px solid #555;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      padding: 12px;
+      font-size: 16px;
+      z-index: 1000;
+      text-align: center;
+    `;
+    
+    // Use the same click handler as the small button
+    fullWidthKeyboardBtn.addEventListener('click', mobileInputBtn.onclick);
+    
+    // Add both buttons to the container
     container.appendChild(mobileInputBtn);
+    container.appendChild(fullWidthKeyboardBtn);
     
     // Add touch event listeners for common actions
     container.addEventListener('touchstart', handleTouchStart);

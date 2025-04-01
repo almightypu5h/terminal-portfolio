@@ -17,6 +17,11 @@
         font-size: 12px !important;
     }
     
+    /* Add bottom padding to make room for keyboard button */
+    .terminal-container .xterm-viewport {
+        padding-bottom: 40px;
+    }
+    
     /* Adjust height for mobile in landscape mode */
     @media screen and (orientation: landscape) {
         .terminal-container {
@@ -28,6 +33,20 @@
     /* Mobile input button styles */
     .mobile-input-button {
         animation: pulse 2s infinite;
+    }
+    
+    /* Full width button special styling */
+    .mobile-input-button.full-width {
+        animation: none;
+        opacity: 0.9 !important;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mobile-input-button.full-width:active {
+        background: rgba(60, 60, 60, 0.9) !important;
     }
     
     @keyframes pulse {
@@ -70,10 +89,23 @@
         font-size: 13px !important;
     }
     
+    /* Add bottom padding to make room for keyboard button */
+    .terminal-container .xterm-viewport {
+        padding-bottom: 40px;
+    }
+    
     /* Slightly larger mobile input button */
     .mobile-input-button {
         padding: 10px 15px !important;
         font-size: 16px !important;
+    }
+    
+    /* Full width button special styling for tablet */
+    .mobile-input-button.full-width {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
@@ -81,6 +113,11 @@
 @supports (-webkit-touch-callout: none) {
     .terminal-container {
         height: -webkit-fill-available;
+    }
+    
+    /* Extra fix for iOS keyboard issues */
+    input[type="text"] {
+        font-size: 16px !important;
     }
 }
 
