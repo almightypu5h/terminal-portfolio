@@ -2,8 +2,6 @@
 
 A sleek, interactive terminal-based portfolio website built with React and xterm.js
 
-![Terminal Portfolio Screenshot](./src/assets/screenshot.png)
-
 ## ✨ Features
 
 - **Authentic Terminal Experience**: Simulates a Linux terminal with authentic styling and behavior
