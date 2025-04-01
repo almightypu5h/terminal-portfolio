@@ -1,12 +1,99 @@
-# React + Vite
+# 🖥️ Linux Terminal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek, interactive terminal-based portfolio website built with React and xterm.js
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Authentic Terminal Experience**: Simulates a Linux terminal with authentic styling and behavior
+- **Interactive Commands**: Navigate through portfolio content using familiar terminal commands
+- **Responsive Design**: Automatically resizes to fit any screen size
+- **Command History**: Navigate through previous commands using arrow keys
+- **Tab Completion**: Complete commands with tab key
+- **Custom ASCII Art**: Personalized welcome banner and neofetch display
+- **Highlighted Text**: Important information stands out with color coding and formatting
 
-## Expanding the ESLint configuration
+## 🚀 Available Commands
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### System Commands
+- `clear` - Clear the terminal screen
+- `echo [text]` - Display text in the terminal
+- `date` - Show current date and time
+- `whoami` - Display current user
+- `uname` - Show system information
+- `reboot` - Restart the terminal
+
+### Portfolio Commands
+- `about` - Display personal information
+- `skills` - List technical skills by category
+- `projects` - View project showcase
+- `contact` - Show contact information with clickable links
+- `resume` - View resume information
+
+### Other Commands
+- `help` - Display available commands
+- `banner` - Show the welcome banner
+- `neofetch` - Display system information in a stylized format
+- `exit` - Exit the terminal
+
+## 💻 Technologies Used
+
+- React
+- xterm.js
+- JavaScript
+- CSS
+- Vite
+
+## 🛠️ Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/terminal-portfolio.git
+   ```
+
+2. Navigate to the project directory:
+   ```
+   cd terminal-portfolio
+   ```
+
+3. Install dependencies:
+   ```
+   npm install
+   ```
+
+4. Start the development server:
+   ```
+   npm run dev
+   ```
+
+5. Open your browser and navigate to `http://localhost:5173`
+
+## 🔧 Customization
+
+You can easily customize the portfolio content by modifying the `portfolioContent` object in `src/components/LinuxTerminalPortfolio.jsx`:
+
+```javascript
+const portfolioContent = {
+  about: "Your personal bio here",
+  skills: {
+    // Your skills by category
+  },
+  contact: {
+    // Your contact information
+  },
+  // Other sections...
+};
+```
+
+## 📱 Performance Optimizations
+
+- Debounced window resize event handling
+- Pre-computed terminal theme and content
+- Batched write operations for better rendering
+- Reduced scrollback buffer for lower memory usage
+- Optimized command lookup and processing
+
+
+## 👤 Author
+
+[Ash](https://github.com/almightypu5h)
+ 
