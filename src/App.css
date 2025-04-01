@@ -11,6 +11,23 @@
     position: relative;
 }
 
+/* Mobile virtual input */
+.mobile-virtual-input {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.mobile-virtual-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Terminal tap area - invisible but clickable */
+.terminal-tap-area {
+    background: transparent;
+}
+
 /* Handle mobile orientation */
 @media screen and (max-width: 480px) {
     .terminal-container .xterm {
@@ -63,7 +80,7 @@
     
     /* Help text for mobile users */
     .terminal-container::before {
-        content: "← Swipe to navigate history →";
+        content: "Tap screen to type • Swipe to navigate history";
         position: fixed;
         bottom: 50px;
         left: 0;
@@ -73,7 +90,7 @@
         font-size: 12px;
         z-index: 1000;
         pointer-events: none;
-        animation: fadeOut 5s forwards;
+        animation: fadeOut 7s forwards;
     }
     
     @keyframes fadeOut {

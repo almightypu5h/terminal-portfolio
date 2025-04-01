@@ -610,114 +610,127 @@ const LinuxTerminalPortfolio = () => {
     
     const container = terminalRef.current;
     
-    // Create mobile keyboard input button
-    const mobileInputBtn = document.createElement('button');
-    mobileInputBtn.innerText = '📝 Tap to type';
-    mobileInputBtn.className = 'mobile-input-button';
-    mobileInputBtn.style.cssText = `
+    // Virtual keyboard state
+    let virtualInput = null;
+    const createVirtualKeyboard = () => {
+      // Remove any existing virtual inputs first
+      if (virtualInput && document.body.contains(virtualInput)) {
+        document.body.removeChild(virtualInput);
+      }
+      
+      // Create a visible input field for mobile
+      virtualInput = document.createElement('input');
+      virtualInput.setAttribute('type', 'text');
+      virtualInput.setAttribute('placeholder', 'Type command...');
+      virtualInput.className = 'mobile-virtual-input';
+      virtualInput.style.cssText = `
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 12px 10px;
+        background: rgba(30, 30, 30, 0.95);
+        color: white;
+        border: none;
+        border-top: 1px solid #555;
+        font-size: 16px;
+        z-index: 1001;
+        font-family: monospace;
+      `;
+      
+      // Handle input events
+      virtualInput.addEventListener('input', (e) => {
+        // Clear current command line first
+        clearCommandLine();
+        
+        // Then write the current input value
+        const text = e.target.value;
+        commandBuffer.current = text;
+        terminal.current.write(text);
+      });
+      
+      // Handle form submission (Enter key press)
+      virtualInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleEnterKey();
+          virtualInput.value = '';
+        }
+      });
+      
+      // Add to DOM
+      document.body.appendChild(virtualInput);
+      virtualInput.focus();
+      
+      return virtualInput;
+    };
+    
+    // Toggle button to show/hide keyboard
+    const toggleBtn = document.createElement('button');
+    toggleBtn.innerText = '⌨️ Keyboard';
+    toggleBtn.className = 'mobile-input-button';
+    toggleBtn.style.cssText = `
       position: fixed;
       bottom: 10px;
       right: 10px;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       color: white;
       border: 1px solid #444;
       border-radius: 5px;
       padding: 8px 12px;
       font-size: 14px;
       z-index: 1000;
-      opacity: 0.7;
-      transition: opacity 0.3s;
+      opacity: 0.9;
     `;
     
-    // Show virtual keyboard when button is tapped
-    mobileInputBtn.addEventListener('click', (e) => {
+    // Toggle virtual keyboard
+    let keyboardVisible = false;
+    toggleBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      keyboardVisible = !keyboardVisible;
       
-      // Create a hidden input field to trigger virtual keyboard
-      const input = document.createElement('input');
-      input.setAttribute('type', 'text');
-      input.style.position = 'fixed';
-      input.style.opacity = '0';
-      input.style.height = '0';
-      input.style.width = '0';
-      input.style.fontSize = '16px'; // iOS won't zoom in if font size >= 16px
-      
-      // Handle input
-      input.addEventListener('input', (e) => {
-        const text = e.target.value;
-        if (text && text.length > 0) {
-          // Add each character to command buffer and terminal
-          for (let i = 0; i < text.length; i++) {
-            handleKeyInput(text.charAt(i));
-          }
-          e.target.value = '';
+      if (keyboardVisible) {
+        // Show keyboard
+        toggleBtn.innerText = '▼ Hide';
+        createVirtualKeyboard();
+      } else {
+        // Hide keyboard
+        toggleBtn.innerText = '⌨️ Keyboard';
+        if (virtualInput && document.body.contains(virtualInput)) {
+          document.body.removeChild(virtualInput);
         }
-      });
-      
-      // Handle form submission (Enter key press)
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          handleEnterKey();
-          input.value = '';
-        } else if (e.key === 'Backspace') {
-          // Handle backspace key
-          if (commandBuffer.current.length > 0) {
-            commandBuffer.current = commandBuffer.current.slice(0, -1);
-            terminal.current.write("\b \b");
-          }
-          e.preventDefault();
-        }
-      });
-      
-      // Append to body and focus
-      document.body.appendChild(input);
-      
-      // Use setTimeout to ensure the focus works on iOS
-      setTimeout(() => {
-        input.focus();
-      }, 100);
-      
-      // Remove after blur
-      input.addEventListener('blur', () => {
-        setTimeout(() => {
-          if (document.body.contains(input)) {
-            document.body.removeChild(input);
-          }
-        }, 300);
-      });
+      }
     });
     
-    // Add a full-width touch keyboard button at the bottom for easier access
-    const fullWidthKeyboardBtn = document.createElement('button');
-    fullWidthKeyboardBtn.innerText = '⌨️ Tap here to type a command';
-    fullWidthKeyboardBtn.className = 'mobile-input-button full-width';
-    fullWidthKeyboardBtn.style.cssText = `
+    // Add toggle button to container
+    container.appendChild(toggleBtn);
+    
+    // Also create a tap area that covers most of the terminal
+    const tapArea = document.createElement('div');
+    tapArea.className = 'terminal-tap-area';
+    tapArea.style.cssText = `
       position: fixed;
-      bottom: 0;
+      top: 60px;
       left: 0;
       right: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      border-top: 1px solid #555;
-      border-left: none;
-      border-right: none;
-      border-bottom: none;
-      padding: 12px;
-      font-size: 16px;
-      z-index: 1000;
-      text-align: center;
+      bottom: 50px;
+      z-index: 900;
+      cursor: pointer;
     `;
     
-    // Use the same click handler as the small button
-    fullWidthKeyboardBtn.addEventListener('click', mobileInputBtn.onclick);
+    // Show keyboard when tapping anywhere in the terminal
+    tapArea.addEventListener('click', () => {
+      if (!keyboardVisible) {
+        keyboardVisible = true;
+        toggleBtn.innerText = '▼ Hide';
+        createVirtualKeyboard();
+      }
+    });
     
-    // Add both buttons to the container
-    container.appendChild(mobileInputBtn);
-    container.appendChild(fullWidthKeyboardBtn);
+    container.appendChild(tapArea);
     
-    // Add touch event listeners for common actions
+    // Add touch event listeners for swipe navigation
     container.addEventListener('touchstart', handleTouchStart);
     container.addEventListener('touchend', handleTouchEnd);
   };

@@ -15,7 +15,8 @@ A sleek, interactive terminal-based portfolio website built with React and xterm
 - **Highlighted Text**: Important information stands out with color coding and formatting
 - **Mobile-Friendly**: Optimized font sizes and interface elements for small screens
 - **Touch Compatible**: Works well on touchscreen devices with swipe gestures and virtual keyboard
-- **Enhanced Mobile Input**: Full-width keyboard button and improved touch input handling
+- **Enhanced Mobile Input**: Visible text input field and tap-anywhere interaction
+- **Intuitive Interface**: Visual cues and instructions for new users
 
 ## 🚀 Available Commands
 
@@ -56,8 +57,9 @@ The terminal portfolio is fully responsive across all devices:
 - **Tablets**: Adjusted font size (13-14px) for better readability on medium screens
 - **Desktop**: Full experience with optimal font size (15px)
 - **Touch Interface**:
-  - Prominent virtual keyboard button for easy typing on mobile
-  - Full-width keyboard activator at bottom of screen
+  - Tap anywhere on screen to activate the keyboard
+  - Visible text input field for direct typing
+  - Toggle button to show/hide the virtual keyboard
   - Swipe left/right to navigate command history
   - Compact ASCII art banner and neofetch on mobile devices
   - Visual cues for touch interactions
