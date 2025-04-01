@@ -48,25 +48,25 @@ const LinuxTerminalPortfolio = () => {
   
   // Pre-computed terminal theme
   const terminalTheme = {
-    background: "#1E1E1E",
-    foreground: "#F8F8F8",
-    cursor: "#A0A0A0",
-    black: "#000000",
-    red: "#C51E14",
-    green: "#1DC121",
-    yellow: "#C7C329",
-    blue: "#0A2FC4",
-    magenta: "#C839C5",
-    cyan: "#20C5C6",
-    white: "#C7C7C7",
-    brightBlack: "#686868",
-    brightRed: "#FD6F6B",
-    brightGreen: "#67F86F",
-    brightYellow: "#FFFA72",
-    brightBlue: "#6A76FB",
-    brightMagenta: "#FD7CFC",
-    brightCyan: "#68FDFE",
-    brightWhite: "#FFFFFF"
+        background: "#1E1E1E",
+        foreground: "#F8F8F8",
+        cursor: "#A0A0A0",
+        black: "#000000",
+        red: "#C51E14",
+        green: "#1DC121",
+        yellow: "#C7C329",
+        blue: "#0A2FC4",
+        magenta: "#C839C5",
+        cyan: "#20C5C6",
+        white: "#C7C7C7",
+        brightBlack: "#686868",
+        brightRed: "#FD6F6B",
+        brightGreen: "#67F86F",
+        brightYellow: "#FFFA72",
+        brightBlue: "#6A76FB",
+        brightMagenta: "#FD7CFC",
+        brightCyan: "#68FDFE",
+        brightWhite: "#FFFFFF"
   };
 
   // Debounce function for performance optimization
@@ -111,7 +111,7 @@ const LinuxTerminalPortfolio = () => {
       }
     }, 100);
     window.addEventListener("resize", handleResize);
-    
+
     // Add touch interface support for mobile
     addMobileTouchSupport();
 
@@ -172,8 +172,8 @@ const LinuxTerminalPortfolio = () => {
           " /_/   \\_\\___/_| |_|  \x1b[0m",
           "\x1b[1;32mWelcome to Ash's Terminal!\x1b[0m",
           "Type \x1b[1;34mhelp\x1b[0m for commands.",
-          "\x1b[1;31m⚠️\x1b[0m \x1b[1mUse responsibly\x1b[0m",
-          "\x1b[1;33m📝 FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
+          "\x1b[1;31m IMPORTANT:\x1b[0m \x1b[1mPlease use the commands responsibly.\x1b[0m",
+          "\x1b[1;33m FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
 
         ]
       : [
@@ -185,8 +185,8 @@ const LinuxTerminalPortfolio = () => {
           "",
           "\x1b[1;32mWelcome to Ash's Terminal!\x1b[0m",
           "Type \x1b[1;34mhelp\x1b[0m to see available commands.",
-          "\x1b[1;31m⚠️  IMPORTANT:\x1b[0m \x1b[1mPlease use the commands responsibly.\x1b[0m",
-          "\x1b[1;33m📝 FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
+          "\x1b[1;31m IMPORTANT:\x1b[0m \x1b[1mPlease use the commands responsibly.\x1b[0m",
+          "\x1b[1;33m FEEDBACK:\x1b[0m \x1b[1mFor suggestions or issues, contact \x1b[4ma83h@proton.me\x1b[0m\x1b[1m\x1b[0m",
         ];
     
     terminal.current.write(bannerText.join("\r\n") + "\r\n");
@@ -208,7 +208,7 @@ const LinuxTerminalPortfolio = () => {
       // Fast path for common actions
       switch (domEvent.key) {
         case "Enter":
-          handleEnterKey();
+        handleEnterKey();
           return;
         case "Backspace":
           if (commandBuffer.current.length > 0) {
@@ -353,31 +353,29 @@ const LinuxTerminalPortfolio = () => {
     help: () => {
       // Use pre-formatted help text for better performance
       const helpText = [
-        "\x1b[1;36m┌─────────────────────────────────────────┐\x1b[0m",
-        "\x1b[1;36m│\x1b[0m           \x1b[1;37mAVAILABLE COMMANDS\x1b[0m           \x1b[1;36m│\x1b[0m",
-        "\x1b[1;36m└─────────────────────────────────────────┘\x1b[0m",
+        "Available Commands",
         "",
-        "\x1b[1;33m📊 SYSTEM:\x1b[0m",
-        "  \x1b[1;32mclear\x1b[0m                  - Clear the terminal",
-        "  \x1b[1;32mecho\x1b[0m [text]            - Display text",
-        "  \x1b[1;32mdate\x1b[0m                   - Display the current date and time",
-        "  \x1b[1;32mwhoami\x1b[0m                 - Display the current user",
-        "  \x1b[1;32muname\x1b[0m                  - Display system information",
-        "  \x1b[1;32mreboot\x1b[0m                 - Restart the terminal",
+        "SYSTEM:",
+        "  clear                  - Clear the terminal",
+        "  echo [text]            - Display text",
+        "  date                   - Display the current date and time",
+        "  whoami                 - Display the current user",
+        "  uname                  - Display system information",
+        "  reboot                 - Restart the terminal",
         "",
-        "\x1b[1;35m💼 PORTFOLIO:\x1b[0m",
-        "  \x1b[1;32mprojects\x1b[0m               - List all projects",
-        "  \x1b[1;32mskills\x1b[0m                 - Display technical skills",
-        "  \x1b[1;32mabout\x1b[0m                  - Display about Ash",
-        "  \x1b[1;32mcontact\x1b[0m                - Display contact information",
-        "  \x1b[1;32mresume\x1b[0m                 - View resume",
+        "PORTFOLIO:",
+        "  projects               - List all projects",
+        "  skills                 - Display technical skills",
+        "  about                  - Display about Ash",
+        "  contact                - Display contact information",
+        "  resume                 - View resume",
         "",
-        "\x1b[1;34m🔧 OTHER:\x1b[0m",
-        "  \x1b[1;32mbanner\x1b[0m                 - Display the welcome banner",
-        "  \x1b[1;32mneofetch\x1b[0m               - Display Ash's system information",
-        "  \x1b[1;32mexit\x1b[0m                   - Exit the terminal",
+        "OTHER:",
+        "  banner                 - Display the welcome banner",
+        "  neofetch               - Display system information",
+        "  exit                   - Exit the terminal",
         "",
-        "\x1b[1;33m💡 TIP:\x1b[0m Use arrow \x1b[1m↑\x1b[0m \x1b[1m↓\x1b[0m keys for command history."
+        "TIP: Use arrow up/down keys for command history."
       ].join("\r\n");
       
       terminal.current.writeln(helpText);
@@ -416,7 +414,7 @@ const LinuxTerminalPortfolio = () => {
         terminal.current.writeln("Fedora Linux 41 (Workstation Edition)");
       }
       prompt();
-    },
+  },
 
     // BANNER command - display the welcome banner
     banner: () => {
@@ -429,14 +427,14 @@ const LinuxTerminalPortfolio = () => {
       const exitMessage = "Goodbye! Thanks for visiting Ash's portfolio.\r\nSession ended. Refresh to restart.";
       terminal.current.writeln(exitMessage);
 
-      setTimeout(() => {
-        terminal.current.write("\r\nPress any key to restart...");
-        const disposable = terminal.current.onKey(() => {
-          window.location.reload();
-          disposable.dispose();
-        });
-      }, 1000);
-    },
+  setTimeout(() => {
+    terminal.current.write("\r\nPress any key to restart...");
+    const disposable = terminal.current.onKey(() => {
+      window.location.reload();
+      disposable.dispose();
+    });
+  }, 1000);
+},
 
     // REBOOT command - restart the terminal
     reboot: () => {
@@ -501,91 +499,81 @@ const LinuxTerminalPortfolio = () => {
       terminal.current.writeln(colorBlocks);
       terminal.current.writeln("");
       terminal.current.write(systemInfo);
-      
-      prompt();
-    },
+
+    prompt();
+  },
 
     // PROJECTS command - list all projects
     projects: () => {
-      terminal.current.writeln("\x1b[1;36m┌─────────────────────────────────────┐\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m│\x1b[0m           \x1b[1;37mMY PROJECTS\x1b[0m           \x1b[1;36m│\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m└─────────────────────────────────────┘\x1b[0m");
+      terminal.current.writeln("Projects");
       terminal.current.writeln("");
-      terminal.current.writeln("\x1b[1;33m" + portfolioContent.projects + "\x1b[0m");
+      terminal.current.writeln(portfolioContent.projects);
       prompt();
     },
 
-    // SKILLS command - display technical skills
-    skills: () => {
-      terminal.current.writeln("\x1b[1;36m┌─────────────────────────────────────┐\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m│\x1b[0m         \x1b[1;37mTECHNICAL SKILLS\x1b[0m         \x1b[1;36m│\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m└─────────────────────────────────────┘\x1b[0m");
+      // SKILLS command - display technical skills
+      skills: () => {
+      terminal.current.writeln("Technical Skills");
       terminal.current.writeln("");
       
       // Pre-process categories for more efficient output
       let skillsOutput = "";
       Object.entries(portfolioContent.skills).forEach(([category, skillsList]) => {
-        skillsOutput += `\x1b[1;33m${category.charAt(0).toUpperCase() + category.slice(1)}:\x1b[0m\r\n`;
+        skillsOutput += `${category.charAt(0).toUpperCase() + category.slice(1)}:\r\n`;
         skillsList.forEach(skill => {
-          skillsOutput += `  \x1b[1;32m•\x1b[0m ${skill}\r\n`;
+          skillsOutput += `  * ${skill}\r\n`;
         });
         skillsOutput += "\r\n";
       });
       
       terminal.current.write(skillsOutput);
-      prompt();
-    },
+        prompt();
+      },
 
-    // ABOUT command - show information about me
-    about: () => {
-      terminal.current.writeln("\x1b[1;36m┌─────────────────────────────────────┐\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m│\x1b[0m            \x1b[1;37mABOUT ASH\x1b[0m            \x1b[1;36m│\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m└─────────────────────────────────────┘\x1b[0m");
+        // ABOUT command - show information about me
+        about: () => {
+      terminal.current.writeln("About Ash");
       terminal.current.writeln("");
       terminal.current.writeln(portfolioContent.about);
-      prompt();
-    },
+          prompt();
+        },
 
-    // CONTACT command - display contact information
-    contact: () => {
-      terminal.current.writeln("\x1b[1;36m┌─────────────────────────────────────┐\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m│\x1b[0m        \x1b[1;37mCONTACT INFORMATION\x1b[0m       \x1b[1;36m│\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m└─────────────────────────────────────┘\x1b[0m");
+          // CONTACT command - display contact information
+          contact: () => {
+      terminal.current.writeln("Contact Information");
       terminal.current.writeln("");
       
       // Pre-compose contact info for fewer write operations
       const contactText = [
-        "\x1b[1;33m🔗 Click the links below to contact me:",
-        `\x1b[1;34m📧 Email:\x1b[0m     \x1b[1;36mmailto:${portfolioContent.contact.email}\x1b[0m`,
-        `\x1b[1;34m💼 Work:\x1b[0m      \x1b[1;36m[click here for work email]\x1b[0m`, 
-        `\x1b[1;34m🐙 GitHub:\x1b[0m    \x1b[1;36mhttps://${portfolioContent.contact.github}\x1b[0m`,
-        `\x1b[1;34m🐦 Twitter:\x1b[0m   \x1b[1;36mhttps://twitter.com/${portfolioContent.contact.twitter.replace('@', '')}\x1b[0m`,
-        `\x1b[1;34m✈️ Telegram:\x1b[0m  \x1b[1;36mhttps://t.me/${portfolioContent.contact.telegram.replace('@', '')}\x1b[0m`
+        "Contact Links:",
+        `Email:     ${portfolioContent.contact.email}`,
+        `Work:      ${portfolioContent.contact.work}`, 
+        `GitHub:    https://${portfolioContent.contact.github}`,
+        `Twitter:   https://twitter.com/${portfolioContent.contact.twitter.replace('@', '')}`,
+        `Telegram:  https://t.me/${portfolioContent.contact.telegram.replace('@', '')}`
       ].join("\r\n");
       
       terminal.current.writeln(contactText);
-      prompt();
-    },
+            prompt();
+          },
 
-    // RESUME command - view resume
-    resume: () => {
-      terminal.current.writeln("\x1b[1;36m┌─────────────────────────────────────┐\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m│\x1b[0m             \x1b[1;37mRESUME\x1b[0m              \x1b[1;36m│\x1b[0m");
-      terminal.current.writeln("\x1b[1;36m└─────────────────────────────────────┘\x1b[0m");
+            // RESUME command - view resume
+            resume: () => {
+      terminal.current.writeln("Resume");
       terminal.current.writeln("");
-      terminal.current.writeln("\x1b[1;31m" + portfolioContent.resume + "\x1b[0m");
-      prompt();
-    },
+      terminal.current.writeln(portfolioContent.resume);
+              prompt();
+            },
 
-    // HISTORY command - show command history
-    history: () => {
+                // HISTORY command - show command history
+                history: () => {
       // Build history output in one string
       let historyOutput = history.current.map((cmd, index) => 
         `${index + 1}  ${cmd}`
       ).join("\r\n");
       
       terminal.current.writeln(historyOutput);
-      prompt();
+                      prompt();
     }
   };
 
@@ -796,21 +784,21 @@ const LinuxTerminalPortfolio = () => {
     }
   };
 
-  return (
-    <div
-      ref={terminalRef}
-      className="terminal-container"
-      style={{
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#1E1E1E",
+return (
+  <div
+    ref={terminalRef}
+    className="terminal-container"
+    style={{
+      width: "100%",
+      height: "100vh",
+      backgroundColor: "#1E1E1E",
         padding: window.innerWidth < 768 ? "5px" : "10px", // Smaller padding on mobile
-        boxSizing: "border-box",
-        overflow: "hidden",
-        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)"
-      }}
-    />
-  );
+      boxSizing: "border-box",
+      overflow: "hidden",
+      boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)"
+    }}
+  />
+);
 };
 
 export default LinuxTerminalPortfolio;

@@ -1,45 +1,45 @@
-# 🖥️ Linux Terminal Portfolio
+# Linux Terminal Portfolio
 
 A sleek, interactive terminal-based portfolio website built with React and xterm.js
 
-## ✨ Features
+## Features
 
-- **Authentic Terminal Experience**: Simulates a Linux terminal with authentic styling and behavior
-- **Interactive Commands**: Navigate through portfolio content using familiar terminal commands
-- **Responsive Design**: Automatically adapts to mobile phones, tablets, and desktop screens
-- **Command History**: Navigate through previous commands using arrow keys
-- **Tab Completion**: Complete commands with tab key
-- **Custom ASCII Art**: Personalized welcome banner and neofetch display
-- **Highlighted Text**: Important information stands out with color coding and formatting
-- **Mobile-Friendly**: Optimized font sizes and interface elements for small screens
-- **Touch Compatible**: Works well on touchscreen devices with swipe gestures and virtual keyboard
-- **Enhanced Mobile Input**: Visible text input field and tap-anywhere interaction
-- **Intuitive Interface**: Visual cues and instructions for new users
+- Authentic Terminal Experience: Simulates a Linux terminal with authentic styling and behavior
+- Interactive Commands: Navigate through portfolio content using familiar terminal commands
+- Responsive Design: Automatically adapts to mobile phones, tablets, and desktop screens
+- Command History: Navigate through previous commands using arrow keys
+- Tab Completion: Complete commands with tab key
+- Custom ASCII Art: Personalized welcome banner and neofetch display
+- Highlighted Text: Important information stands out with color coding and formatting
+- Mobile-Friendly: Optimized font sizes and interface elements for small screens
+- Touch Compatible: Works well on touchscreen devices with swipe gestures and virtual keyboard
+- Enhanced Mobile Input: Visible text input field and tap-anywhere interaction
+- Intuitive Interface: Visual cues and instructions for new users
 
-## 🚀 Available Commands
+## Available Commands
 
 ### System Commands
-- `clear` - Clear the terminal screen
-- `echo [text]` - Display text in the terminal
-- `date` - Show current date and time
-- `whoami` - Display current user
-- `uname` - Show system information
-- `reboot` - Restart the terminal
+- clear - Clear the terminal screen
+- echo [text] - Display text in the terminal
+- date - Show current date and time
+- whoami - Display current user
+- uname - Show system information
+- reboot - Restart the terminal
 
 ### Portfolio Commands
-- `about` - Display personal information
-- `skills` - List technical skills by category
-- `projects` - View project showcase
-- `contact` - Show contact information with clickable links
-- `resume` - View resume information
+- about - Display personal information
+- skills - List technical skills by category
+- projects - View project showcase
+- contact - Show contact information with clickable links
+- resume - View resume information
 
 ### Other Commands
-- `help` - Display available commands
-- `banner` - Show the welcome banner
-- `neofetch` - Display system information in a stylized format
-- `exit` - Exit the terminal
+- help - Display available commands
+- banner - Show the welcome banner
+- neofetch - Display system information in a stylized format
+- exit - Exit the terminal
 
-## 💻 Technologies Used
+## Technologies Used
 
 - React
 - xterm.js
@@ -47,14 +47,14 @@ A sleek, interactive terminal-based portfolio website built with React and xterm
 - CSS
 - Vite
 
-## 📱 Responsive Design
+## Responsive Design
 
 The terminal portfolio is fully responsive across all devices:
 
-- **Mobile Phones**: Optimized font size (12px) and layout for small screens
-- **Tablets**: Adjusted font size (13-14px) for better readability on medium screens
-- **Desktop**: Full experience with optimal font size (15px)
-- **Touch Interface**:
+- Mobile Phones: Optimized font size (12px) and layout for small screens
+- Tablets: Adjusted font size (13-14px) for better readability on medium screens
+- Desktop: Full experience with optimal font size (15px)
+- Touch Interface:
   - Tap anywhere on screen to activate the keyboard
   - Visible text input field for direct typing
   - Toggle button to show/hide the virtual keyboard
@@ -62,13 +62,13 @@ The terminal portfolio is fully responsive across all devices:
   - Compact ASCII art banner and neofetch on mobile devices
   - Visual cues for touch interactions
   - iOS keyboard optimization
-- **Special Considerations**:
+- Special Considerations:
   - iOS Safari viewport height fixes
   - Landscape mode optimizations
   - Custom scrollbar styling for better touch interaction
   - Reduced padding on smaller screens
 
-## 🛠️ Installation
+## Installation
 
 1. Clone the repository:
    ```
@@ -92,7 +92,7 @@ The terminal portfolio is fully responsive across all devices:
 
 5. Open your browser and navigate to `http://localhost:5173`
 
-## 🔧 Customization
+## Customization
 
 You can easily customize the portfolio content by modifying the `portfolioContent` object in `src/components/LinuxTerminalPortfolio.jsx`:
 
@@ -109,7 +109,7 @@ const portfolioContent = {
 };
 ```
 
-## 📱 Performance Optimizations
+## Performance Optimizations
 
 - Debounced window resize event handling
 - Pre-computed terminal theme and content
@@ -117,8 +117,7 @@ const portfolioContent = {
 - Reduced scrollback buffer for lower memory usage
 - Optimized command lookup and processing
 
-
-## 👤 Author
+## Author
 
 [Ash](https://github.com/almightypu5h)
  
